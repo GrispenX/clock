@@ -13,6 +13,7 @@ frameBuffer_t createFrameBuffer(size_t width, size_t height)
 
 void setPixel(frameBuffer_t* buffer,size_t x, size_t y, RGBcolor_t color)
 {
+    if(x >= buffer->width || y >= buffer->height) {return;}
     buffer->buffer[buffer->width * y + x] = color;
 }
 
@@ -29,6 +30,7 @@ void fillFrameBuffer(frameBuffer_t* buffer,RGBcolor_t color)
 
 RGBcolor_t getPixel(frameBuffer_t* buffer, size_t x, size_t y)
 {
+    if(x >= buffer->width || y >= buffer->height) {return BLACK;}
     return buffer->buffer[buffer->width * y + x];
 }
 
