@@ -1,44 +1,43 @@
 #ifndef HEADER_FILE
 #define HEADER_FILE
 
-#define MATRIX_WIDTH 32
-#define MATRIX_HEIGHT 8
-
 #include <stdint.h>
 #include <stddef.h>
 
-#define RGB(rv, gv, bv) \
-    (RGBcolor_t)     \
-    {                \
-        .r = rv,      \
-        .g = gv,      \
-        .b = bv       \
+#define RGBA(rv, gv, bv, av) \
+    (RGBAcolor_t)            \
+    {                        \
+        .r = rv,             \
+        .g = gv,             \
+        .b = bv,             \
+        .a = av              \
     }
 
-#define BLACK RGB(0, 0, 0)
-#define WHITE RGB(255, 255, 255)
-#define RED RGB(255, 0, 0)
-#define GREEN RGB(0, 255, 0)
-#define BLUE RGB(0, 0, 255)
+#define BLACK RGBA(0, 0, 0, 255)
+#define WHITE RGBA(255, 255, 255, 255)
+#define RED RGBA(255, 0, 0, 255)
+#define GREEN RGBA(0, 255, 0, 255)
+#define BLUE RGBA(0, 0, 255, 255)
 
 typedef struct
 {
     uint8_t r;
     uint8_t g;
     uint8_t b;
-} RGBcolor_t;
+    uint8_t a;
+} RGBAcolor_t;
 
 typedef struct
 {
-    RGBcolor_t *buffer;
+    RGBAcolor_t *buffer;
     size_t width;
     size_t height;
 } frameBuffer_t;
 
 frameBuffer_t createFrameBuffer(size_t width, size_t height);
-void setPixel(frameBuffer_t *buffer, size_t x, size_t y, RGBcolor_t color);
-void fillFrameBuffer(frameBuffer_t *buffer, RGBcolor_t color);
+void setPixel(frameBuffer_t *buffer, size_t x, size_t y, RGBAcolor_t color);
+void fillFrameBuffer(frameBuffer_t *buffer, RGBAcolor_t color);
 void printFrameBuffer(frameBuffer_t *buffer);
-RGBcolor_t getPixel(frameBuffer_t *buffer, size_t x, size_t y);
+RGBAcolor_t getPixel(frameBuffer_t *buffer, size_t x, size_t y);
 
 #endif
