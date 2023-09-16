@@ -1,4 +1,4 @@
-#include <graphicslib.h>
+#include <framebuffer.h>
 #include <stdio.h>
 
 RGBcolor_t matrixBuffer[MATRIX_WIDTH][MATRIX_HEIGHT];

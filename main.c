@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
-#include <graphicslib.h>
+#include <framebuffer.h>
 
 #define MATRIX_WIDTH   32
 #define MATRIX_HEIGHT  8
