@@ -2,36 +2,16 @@
 #include <stdint.h>
 #include <framebuffer.h>
 
-#define MATRIX_WIDTH   32
-#define MATRIX_HEIGHT  8
-
-typedef struct {
-    uint8_t r;
-    uint8_t g;
-    uint8_t b
-}pixel_t;
-
-pixel_t ledMatrix[MATRIX_WIDTH][MATRIX_HEIGHT];
-
-void ledMatrix_print()
-{
-    for (int h = 0; h < MATRIX_HEIGHT; h++)
-    {
-        for(int w = 0; w < MATRIX_WIDTH; w++)
-        {
-            printf("\033[38;2;%d;%d;%dm█", ledMatrix[w][h].r, ledMatrix[w][h].g, ledMatrix[w][h].b);
-        }
-        printf("\n");
-    }
-    printf("\033[8A");
-}
-
+#define SCREEN_WIDTH  32
+#define SCREEN_HEIGHT 8
 int main()
 {
-    RGBcolor_t newcolor={.r=100,.g=200,.b=255};
-    fillMatrixBuffer(newcolor);
-    for(int i = 0; i < 20; i++)
+    frameBuffer_t newBuffer = createFrameBuffer(SCREEN_WIDTH, SCREEN_HEIGHT);
+    RGBcolor_t newcolor={.r=0,.g=255,.b=0};
+    for(int i = 0; i < 255; i++)
     {
-        printMatrixBuffer();
+        fillFrameBuffer(&newBuffer, newcolor);
+        printFrameBuffer(&newBuffer);
+        newcolor.r += 1;
     }
 }

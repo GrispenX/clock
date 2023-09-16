@@ -1,38 +1,47 @@
 #include <framebuffer.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-RGBcolor_t matrixBuffer[MATRIX_WIDTH][MATRIX_HEIGHT];
-
-void setPixel(int width, int height, RGBcolor_t color)
+frameBuffer_t createFrameBuffer(size_t width, size_t height)
 {
-    matrixBuffer[width][height] = color;
+    frameBuffer_t buffer;
+    buffer.buffer = malloc(sizeof(RGBcolor_t) * width * height);
+    buffer.width = width;
+    buffer.height = height;
+    return buffer;
 }
-void fillMatrixBuffer(RGBcolor_t color)
+
+void setPixel(frameBuffer_t* buffer,size_t x, size_t y, RGBcolor_t color)
 {
-    for(int h = 0; h < MATRIX_HEIGHT; h++)
+    buffer->buffer[buffer->width * y + x] = color;
+}
+
+void fillFrameBuffer(frameBuffer_t* buffer,RGBcolor_t color)
+{
+    for(int h = 0; h < buffer->height; h++)
     {
-        for(int w = 0; w < MATRIX_WIDTH; w++)
+        for(int w = 0; w < buffer->width; w++)
         {
-            setPixel(w, h, color);
+            setPixel(buffer, w, h, color);
         }
     }
 }
 
-RGBcolor_t getPixel(int x, int y)
+RGBcolor_t getPixel(frameBuffer_t* buffer, size_t x, size_t y)
 {
-    return matrixBuffer[x][y];
+    return buffer->buffer[buffer->width * y + x];
 }
 
-void printMatrixBuffer()
+void printFrameBuffer(frameBuffer_t* buffer)
 {
-    //printf("\n");
-    for (int h = 0; h < MATRIX_HEIGHT; h++)
+    printf("\033[%dA", buffer->height);
+    for (int h = 0; h < buffer->height; h++)
         {
-            for(int w = 0; w < MATRIX_WIDTH; w++)
+            for(int w = 0; w < buffer->width; w++)
             {
-                printf("\033[38;2;%d;%d;%dm█", getPixel(w, h).r, getPixel(w, h).g, getPixel(w, h).b);
+                RGBcolor_t getColor = getPixel(buffer, w, h);
+                printf("\033[38;2;%d;%d;%dm█", getColor.r, getColor.g, getColor.b);
             }
             printf("\n");
         }
-        printf("\033[8A");
 }

@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "graphicslib.h": "c"
+        "graphicslib.h": "c",
+        "stdint.h": "c",
+        "framebuffer.h": "c",
+        "stdio.h": "c"
     }
 }
