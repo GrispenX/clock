@@ -39,5 +39,6 @@ void setPixel(frameBuffer_t *buffer, size_t x, size_t y, RGBAcolor_t color);
 void fillFrameBuffer(frameBuffer_t *buffer, RGBAcolor_t color);
 void printFrameBuffer(frameBuffer_t *buffer);
 RGBAcolor_t getPixel(frameBuffer_t *buffer, size_t x, size_t y);
+void blendFrameBuffers(frameBuffer_t *buffer1, frameBuffer_t *buffer2, size_t offsetX, size_t offsetY);
 
 #endif
