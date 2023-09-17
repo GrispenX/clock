@@ -1,6 +1,8 @@
 #include <framebuffer.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 
 static RGBAcolor_t blendColor(RGBAcolor_t color2, RGBAcolor_t color1)
 {
@@ -14,14 +16,14 @@ static RGBAcolor_t blendColor(RGBAcolor_t color2, RGBAcolor_t color1)
 
 void blendFrameBuffers(frameBuffer_t *buffer1, frameBuffer_t *buffer2, size_t offsetX, size_t offsetY)
 {
-    for(int h = 0; h < buffer1->height - offsetY; h++)
+    for(int h = 0; h < buffer2->height; h++)
     {
-        for(int w = 0; w < buffer1->width - offsetX; w++)
+        for(int w = 0; w < buffer2->width; w++)
         {
             RGBAcolor_t color1 = buffer1->buffer[buffer1->width * (h + offsetY) + w + offsetX];
             RGBAcolor_t color2 = buffer2->buffer[buffer2->width * h + w];
 
-            buffer1->buffer[buffer1->width * (h + offsetY) + w + offsetX] = blendColor(color1, color2);
+            setPixel(buffer1, w + offsetX, h + offsetY, blendColor(color1, color2));
         }
     }
 }
@@ -71,8 +73,22 @@ void printFrameBuffer(frameBuffer_t* buffer)
             for(int w = 0; w < buffer->width; w++)
             {
                 RGBAcolor_t getColor = getPixel(buffer, w, h);
-                printf("\033[38;2;%d;%d;%dm█", getColor.r, getColor.g, getColor.b);
+                printf("\033[38;2;%d;%d;%dm██", getColor.r, getColor.g, getColor.b);
             }
             printf("\n");
         }
+}
+
+
+void renderCharacter(frameBuffer_t *buffer, char character, const font_t *font, size_t x, size_t y)
+{
+    blendFrameBuffers(buffer, &font->fontFrameBuffers[character], x, y);
+}
+
+void renderString(frameBuffer_t *buffer, char string[], const font_t *font, size_t x, size_t y)
+{
+    for(int i = 0; i < strlen(string); i++)
+    {
+       renderCharacter(buffer, string[i], font, x + (4 * i), y);
+    }
 }

@@ -4,6 +4,7 @@
         "stdint.h": "c",
         "framebuffer.h": "c",
         "stdio.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "minimalistic_font.h": "c"
     }
 }
