@@ -35,6 +35,7 @@ typedef struct
 } frameBuffer_t;
 
 frameBuffer_t createFrameBuffer(size_t width, size_t height);
+void deleteFrameBuffer(frameBuffer_t *buffer);
 void setPixel(frameBuffer_t *buffer, size_t x, size_t y, RGBAcolor_t color);
 void fillFrameBuffer(frameBuffer_t *buffer, RGBAcolor_t color);
 void printFrameBuffer(frameBuffer_t *buffer);

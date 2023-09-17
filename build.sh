@@ -1,3 +1,3 @@
 #!/bin/bash
 
-gcc graphicslib/framebuffer.c main.c -Igraphicslib -o ababa
+gcc graphicslib/framebuffer.c main.c -Igraphicslib -o test

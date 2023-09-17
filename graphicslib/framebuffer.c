@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static RGBAcolor_t blendColor(RGBAcolor_t color1, RGBAcolor_t color2)
+static RGBAcolor_t blendColor(RGBAcolor_t color2, RGBAcolor_t color1)
 {
     RGBAcolor_t colorOut;
     colorOut.a = color1.a + color2.a * (255 - color1.a);
@@ -33,6 +33,11 @@ frameBuffer_t createFrameBuffer(size_t width, size_t height)
     buffer.width = width;
     buffer.height = height;
     return buffer;
+}
+
+void deleteFrameBuffer(frameBuffer_t *buffer)
+{
+    free(buffer->buffer);
 }
 
 void setPixel(frameBuffer_t* buffer,size_t x, size_t y, RGBAcolor_t color)
