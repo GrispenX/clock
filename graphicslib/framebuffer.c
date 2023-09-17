@@ -89,6 +89,7 @@ void renderString(frameBuffer_t *buffer, char string[], const font_t *font, size
 {
     for(int i = 0; i < strlen(string); i++)
     {
-       renderCharacter(buffer, string[i], font, x + (4 * i), y);
+       renderCharacter(buffer, string[i], font, x, y);
+       x = x + font->fontFrameBuffers[string[i]].width + 1;
     }
 }

@@ -96,12 +96,12 @@ frameBuffer_t font[255] = {
         .height = 5
     },
     [':'] = (frameBuffer_t){
-        .buffer = (RGBAcolor_t[]){O, O, O,
-                                  O, I, O,
-                                  O, O, O,
-                                  O, I, O,
-                                  O, O, O},
-        .width = 3,
+        .buffer = (RGBAcolor_t[]){O,
+                                  I,
+                                  O,
+                                  I,
+                                  O},
+        .width = 1,
         .height = 5
     },
 };
