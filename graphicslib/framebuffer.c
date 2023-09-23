@@ -31,7 +31,7 @@ void blendFrameBuffers(frameBuffer_t *buffer1, frameBuffer_t *buffer2, size_t of
 frameBuffer_t createFrameBuffer(size_t width, size_t height)
 {
     frameBuffer_t buffer;
-    buffer.buffer = malloc(sizeof(RGBAcolor_t) * width * height);
+    buffer.buffer = calloc(sizeof(RGBAcolor_t) * width * height, 1);
     buffer.width = width;
     buffer.height = height;
     return buffer;
@@ -80,16 +80,32 @@ void printFrameBuffer(frameBuffer_t* buffer)
 }
 
 
-void renderCharacter(frameBuffer_t *buffer, char character, const font_t *font, size_t x, size_t y)
+void renderCharacter(frameBuffer_t *buffer, char character, const font_t *font, size_t x, size_t y, RGBAcolor_t color)
 {
-    blendFrameBuffers(buffer, &font->fontFrameBuffers[character], x, y);
+    const size_t charWidth = font->fontFrameBuffers[character].width;
+    const size_t charHeight = font->fontFrameBuffers[character].height;
+    frameBuffer_t renderedChar = createFrameBuffer(charWidth, charHeight);
+    for(int h = 0; h < charHeight; h++)
+    {
+        for(int w = 0; w < charWidth; w++)
+        {
+            RGBAcolor_t currentPixel = getPixel(&font->fontFrameBuffers[character], w, h);
+            currentPixel.r &= color.r;
+            currentPixel.g &= color.g;
+            currentPixel.b &= color.b;
+            currentPixel.a = color.a;
+            setPixel(&renderedChar, w, h, currentPixel);
+        }
+    }
+    blendFrameBuffers(buffer, &renderedChar, x, y);
+    deleteFrameBuffer(&renderedChar);
 }
 
-void renderString(frameBuffer_t *buffer, char string[], const font_t *font, size_t x, size_t y)
+void renderString(frameBuffer_t *buffer, const char *string, const font_t *font, size_t x, size_t y, RGBAcolor_t color)
 {
     for(int i = 0; i < strlen(string); i++)
     {
-       renderCharacter(buffer, string[i], font, x, y);
+       renderCharacter(buffer, string[i], font, x, y, color);
        x = x + font->fontFrameBuffers[string[i]].width + 1;
     }
 }

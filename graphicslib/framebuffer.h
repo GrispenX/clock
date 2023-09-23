@@ -53,7 +53,7 @@ void printFrameBuffer(frameBuffer_t *buffer);
 void blendFrameBuffers(frameBuffer_t *buffer1, frameBuffer_t *buffer2, size_t offsetX, size_t offsetY);
 
 
-void renderCharacter(frameBuffer_t *buffer, char character, const font_t *font, size_t x, size_t y);
-void renderString(frameBuffer_t *buffer, char string[], const font_t *font, size_t x, size_t y);
+void renderCharacter(frameBuffer_t *buffer, char character, const font_t *font, size_t x, size_t y, RGBAcolor_t color);
+void renderString(frameBuffer_t *buffer, const char *string, const font_t *font, size_t x, size_t y, RGBAcolor_t color);
 
 #endif
