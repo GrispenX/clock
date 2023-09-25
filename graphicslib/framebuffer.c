@@ -69,7 +69,7 @@ RGBAcolor_t getPixel(frameBuffer_t* buffer, size_t x, size_t y)
 
 void printFrameBuffer(frameBuffer_t* buffer)
 {
-    printf("\033[%dA", buffer->height);
+    printf("\033[%ldA", buffer->height);
     for (int h = 0; h < buffer->height; h++)
         {
             for(int w = 0; w < buffer->width; w++)
