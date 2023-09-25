@@ -56,6 +56,7 @@ void blendFrameBuffers(frameBuffer_t *buffer1, frameBuffer_t *buffer2, size_t of
 void renderCharacter(frameBuffer_t *buffer, char character, const font_t *font, size_t x, size_t y, RGBAcolor_t color);
 void renderString(frameBuffer_t *buffer, const char *string, const font_t *font, size_t x, size_t y, RGBAcolor_t color);
 
-void renderCharacterWithPattern(frameBuffer_t *buffer, char character, const font_t *font, size_t x, size_t y, frameBuffer_t *colorPattern);
+void renderCharacterWithPattern(frameBuffer_t *buffer, char character, const font_t *font, size_t x, size_t y, frameBuffer_t *colorPattern, size_t patternOffsetX, size_t patternOffsetY);
+void renderStringWithPattern(frameBuffer_t *buffer, char *string, const font_t *font, size_t x, size_t y, frameBuffer_t *colorPattern, size_t patternOffsetX, size_t patternOffsetY);
 
 #endif

@@ -112,7 +112,7 @@ void renderString(frameBuffer_t *buffer, const char *string, const font_t *font,
     }
 }
 
-void renderCharacterWithPattern(frameBuffer_t *buffer, char character, const font_t *font, size_t x, size_t y, frameBuffer_t *colorPattern)
+void renderCharacterWithPattern(frameBuffer_t *buffer, char character, const font_t *font, size_t x, size_t y, frameBuffer_t *colorPattern, size_t patternOffsetX, size_t patternOffsetY)
 {
     const size_t charWidth = font->fontFrameBuffers[character].width;
     const size_t charHeight = font->fontFrameBuffers[character].height;
@@ -122,7 +122,7 @@ void renderCharacterWithPattern(frameBuffer_t *buffer, char character, const fon
         for(int w = 0; w < charWidth; w++)
         {
             RGBAcolor_t currentPixel = getPixel(&font->fontFrameBuffers[character], w, h);
-            RGBAcolor_t currentPattern = getPixel(colorPattern, w, h);
+            RGBAcolor_t currentPattern = getPixel(colorPattern, w + patternOffsetX, h + patternOffsetY);
             currentPixel.r &= currentPattern.r;
             currentPixel.g &= currentPattern.g;
             currentPixel.b &= currentPattern.b;
@@ -132,4 +132,15 @@ void renderCharacterWithPattern(frameBuffer_t *buffer, char character, const fon
     }
     blendFrameBuffers(buffer, &renderedChar, x, y);
     deleteFrameBuffer(&renderedChar);
+}
+
+void renderStringWithPattern(frameBuffer_t *buffer, char *string, const font_t *font, size_t x, size_t y, frameBuffer_t *colorPattern, size_t patternOffsetX, size_t patternOffsetY)
+{
+    for(int i = 0; i < strlen(string); i++)
+    {
+        renderCharacterWithPattern(buffer, string[i], font, x, y, colorPattern, patternOffsetX, patternOffsetY);
+        size_t charWidth = font->fontFrameBuffers[string[i]].width;
+        patternOffsetX += charWidth + 1;
+        x += charWidth + 1;
+    }
 }

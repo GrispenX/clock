@@ -12,10 +12,17 @@ int main()
 {
     printf("\n\n\n\n\n\n\n\n");
     frameBuffer_t newBuffer = createFrameBuffer(SCREEN_WIDTH, SCREEN_HEIGHT);
-    fillFrameBuffer(&newBuffer, GREEN);
-    frameBuffer_t pattern = createFrameBuffer(3,5);
-    fillFrameBuffer(&pattern, BLUE);
-    setPixel(&pattern, 1, 3, RED);
-    renderCharacterWithPattern(&newBuffer, '1', minimalisticFont, 10, 1, &pattern);
+    fillFrameBuffer(&newBuffer, BLACK);
+    frameBuffer_t patternBuffer = createFrameBuffer(SCREEN_WIDTH, SCREEN_HEIGHT);
+    RGBAcolor_t color = RGBA(0, 0, 255, 255);
+    for(int y = 0; y < SCREEN_HEIGHT; y++)
+    {
+        color.g += 30;
+        for(int x = 0; x < SCREEN_WIDTH; x++)
+        {
+            setPixel(&patternBuffer, x, y, color);
+        }
+    }
+    renderStringWithPattern(&newBuffer, "12:34", minimalisticFont, 8, 1, &patternBuffer, 1, 1);
     printFrameBuffer(&newBuffer);
 }
