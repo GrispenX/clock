@@ -6,6 +6,8 @@
 
 static RGBAcolor_t blendColor(RGBAcolor_t color2, RGBAcolor_t color1)
 {
+    if(color1.a == 0) {return color2;}
+    if(color2.a == 0) {return color1;}
     RGBAcolor_t colorOut;
     colorOut.a = color1.a + color2.a * (255 - color1.a);
     colorOut.r = (color1.r * color1.a + color2.r * color2.a * (255 - color1.a)) / colorOut.a;
@@ -108,4 +110,26 @@ void renderString(frameBuffer_t *buffer, const char *string, const font_t *font,
        renderCharacter(buffer, string[i], font, x, y, color);
        x = x + font->fontFrameBuffers[string[i]].width + 1;
     }
+}
+
+void renderCharacterWithPattern(frameBuffer_t *buffer, char character, const font_t *font, size_t x, size_t y, frameBuffer_t *colorPattern)
+{
+    const size_t charWidth = font->fontFrameBuffers[character].width;
+    const size_t charHeight = font->fontFrameBuffers[character].height;
+    frameBuffer_t renderedChar = createFrameBuffer(charWidth, charHeight);
+    for(int h = 0; h < charHeight; h++)
+    {
+        for(int w = 0; w < charWidth; w++)
+        {
+            RGBAcolor_t currentPixel = getPixel(&font->fontFrameBuffers[character], w, h);
+            RGBAcolor_t currentPattern = getPixel(colorPattern, w, h);
+            currentPixel.r &= currentPattern.r;
+            currentPixel.g &= currentPattern.g;
+            currentPixel.b &= currentPattern.b;
+            currentPixel.a &= currentPattern.a;
+            setPixel(&renderedChar, w, h, currentPixel);
+        }
+    }
+    blendFrameBuffers(buffer, &renderedChar, x, y);
+    deleteFrameBuffer(&renderedChar);
 }
